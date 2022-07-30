@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -13,8 +13,8 @@ import { useNavigation } from '@react-navigation/native';
 import Logo from '../../assets/images/logo.png'
 import AuthInput from '../../components/AuthInput';
 import AuthButton from '../../components/AuthButton';
-import {useForm, Controller} from 'react-hook-form';
-
+import { useForm, Controller } from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const LoginScreen = () => {
     const { height } = useWindowDimensions();
@@ -27,31 +27,55 @@ const LoginScreen = () => {
         formState: { errors },
     } = useForm();
 
+    const storeToken = async (value) => {
+        try {
+            await AsyncStorage.setItem('token', value);
+            
+        } catch (e) {
+            Alert.alert(e);
+        }
+      }
+
     const onLogInPressed = async data => {
         if (loading) {
             return;
         }
+        console.warn("login");
 
         setLoading(true);
-        /*
-        try {
-            const response = await Auth.signIn(data.username, data.password);
-            console.log(response);
-        } catch (e) {
-            Alert.alert('Oops', e.message);
+        let _datos = {
+            username: data.username,
+            password: data.password
         }
-        */
+       
+        fetch('https://riegoback.herokuapp.com/auth/login', {
+            method: "POST",
+            body: JSON.stringify(_datos),
+            headers: { "Content-type": "application/json; charset=UTF-8" }
+        })
+            .then(response => response.json())
+            .then(json => {                
+                storeToken(json.access_token)
+                navigation.navigate('Finca');
+                
+            })
+            .catch(err => {
+                console.log(err);
+                Alert.alert(err)
+            });
+
         setLoading(false);
+
     };
 
-    
+
 
     const onForgotPasswordPressed = () => {
         navigation.navigate('ForgotPassword');
     };
 
     const onSignUpPress = () => {
-        navigation.navigate('SignUp');
+        navigation.navigate('SingUp');
     };
     return (
         <ScrollView showsVerticalScrollIndicator={false}>

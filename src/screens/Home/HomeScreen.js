@@ -1,16 +1,14 @@
-
-
 import React from 'react';
 import {View,Text, StyleSheet} from 'react-native';
 
-const SingUpScreen = () => {
+const HomeScreen = () => {
     return (
         <View>
-            <Text>SingUp</Text>
+            <Text>welcome to home</Text>
         </View>
     );
 }
 
 const styles = StyleSheet.create({})
 
-export default SingUpScreen;
+export default HomeScreen;
