@@ -1,13 +1,19 @@
 import React from 'react';
 import {View, Text,StyleSheet} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import AuthButton from '../AuthButton';
+const Card = (props) => {
 
-const Card = ({item}) => {
+    
+    const navigation = useNavigation();
     return (
         <View style={styles.root}>
-            <Text><Text style={styles.text}>Nombre: </Text>{item.nombre}</Text>
-            <Text><Text style={styles.text}>Direccion: </Text>{item.direccion}</Text>
-            <Text><Text style={styles.text}>Latitud: </Text>{item.latidud}</Text>
-            <Text><Text style={styles.text}>Longitud: </Text>{item.longitud}</Text>            
+            <Text><Text style={styles.text}>Nombre: </Text>{props.item.nombre}</Text>
+            <Text><Text style={styles.text}>Direccion: </Text>{props.item.direccion}</Text>
+            <Text><Text style={styles.text}>Latitud: </Text>{props.item.latidud}</Text>
+            <Text><Text style={styles.text}>Longitud: </Text>{props.item.longitud}</Text>
+            <AuthButton onPress={()=>{navigation.navigate(props.ruta,props.item)}} text={props.text} /> 
+            <AuthButton onPress={()=>{navigation.navigate(props.ruta2,props.item)}} text={props.text2} />            
         </View>
     );
 }

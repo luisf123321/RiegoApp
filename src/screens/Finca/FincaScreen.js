@@ -3,10 +3,20 @@ import { View, Text, StyleSheet,FlatList } from 'react-native';
 import Http from '../../libs/Http';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Card from '../../components/Card';
+import AuthButton from '../../components/AuthButton';
+import { useNavigation } from '@react-navigation/native';
+import { useForm, Controller } from 'react-hook-form';
 const FincaScreen = () => {
 
     const [token, setToken] = useState('');
     const [data, setData] = useState(null);
+    const navigation = useNavigation();
+
+    const {
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
     const getUserToken = async () => {
         try {
@@ -21,14 +31,13 @@ const FincaScreen = () => {
             // error reading value
         }
     }
+    
     useEffect(() => {
         // Your code here
         const getFincasByUser = async () => {
             let value = await getUserToken();
             console.log(value)
             let json = await Http.instance.get("https://riegoback.herokuapp.com/finca/user/25", value);
-            console.log("*********************************")
-            console.log(json)
             if (json !== null) {
                 setData(json);
             }
@@ -37,12 +46,16 @@ const FincaScreen = () => {
     }, []);
     return (
         <View>
-            <Text>fincas</Text>
             <FlatList 
                 data={data}
                 renderItem={({ item }) =>
                     <Card
-                    item={item}/>
+                    item={item}
+                    ruta={"DetalleFinca"} 
+                    text={"Ver Detalle"}
+                    ruta2={"Lotes"} 
+                    text2={"Ver DLotes"}
+                    />
                 }
              />
         </View>

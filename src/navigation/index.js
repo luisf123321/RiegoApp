@@ -7,6 +7,7 @@ import Home from '../screens/Home';
 import Finca from '../screens/Finca';
 import Lotes from '../screens/Lotes';
 import SingUpScreen from '../screens/SingUpScreen';
+import FincaDetailScreem from '../screens/Finca/FincaDetailScreem';
 
 const stack = createStackNavigator();
 const Navigation = () => {
@@ -18,6 +19,7 @@ const Navigation = () => {
                 <stack.Screen name='Home' component={Home} />
                 <stack.Screen name='Finca' component={Finca} />
                 <stack.Screen name='Lotes' component={Lotes} />
+                <stack.Screen name='DetalleFinca' component={FincaDetailScreem} />
             </stack.Navigator>
         </NavigationContainer>
     );
