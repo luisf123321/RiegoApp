@@ -43,8 +43,7 @@ const LotesScreen = (props) => {
    
 
     return (
-        <View>
-            <Text> lotes</Text>
+        <View style={styles.root}>           
             <FlatList 
                 data={data}
                 renderItem={({ item }) =>
@@ -61,6 +60,10 @@ const LotesScreen = (props) => {
     );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    root: {
+        flex: 1
+    }
+})
 
 export default LotesScreen;

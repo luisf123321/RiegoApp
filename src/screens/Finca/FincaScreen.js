@@ -1,5 +1,5 @@
-import React, { useState,useEffect } from 'react';
-import { View, Text, StyleSheet,FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, ScrollViewBase } from 'react-native';
 import Http from '../../libs/Http';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Card from '../../components/Card';
@@ -26,18 +26,19 @@ const FincaScreen = () => {
             }
 
             return value;
-            
+
         } catch (e) {
             // error reading value
         }
     }
-    
+
     useEffect(() => {
         // Your code here
         const getFincasByUser = async () => {
             let value = await getUserToken();
             console.log(value)
             let json = await Http.instance.get("https://riegoback.herokuapp.com/finca/user/25", value);
+            console.log(json)
             if (json !== null) {
                 setData(json);
             }
@@ -45,23 +46,28 @@ const FincaScreen = () => {
         getFincasByUser().catch(console.error)
     }, []);
     return (
-        <View>
-            <FlatList 
+        <View style={styles.root}>
+            <FlatList
                 data={data}
                 renderItem={({ item }) =>
                     <Card
-                    item={item}
-                    ruta={"DetalleFinca"} 
-                    text={"Ver Detalle"}
-                    ruta2={"Lotes"} 
-                    text2={"Ver DLotes"}
+
+                        item={item}
+                        ruta={"DetalleFinca"}
+                        text={"Ver Detalle"}
+                        ruta2={"Lotes"}
+                        text2={"Ver DLotes"}
                     />
                 }
-             />
+            />
         </View>
     );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    root: {
+        flex: 1
+    }
+})
 
 export default FincaScreen;
